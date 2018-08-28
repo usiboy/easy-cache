@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.usiboy</groupId>
 	<artifactId>easy-cache</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Easy Cache</name>
 	<description>简化你的缓存架构，隐藏缓存的调用细节，专注业务领域设计</description>
