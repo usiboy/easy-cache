@@ -1,5 +1,6 @@
 package com.github.usiboy.easycache.spring;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.SimpleValueWrapper;
@@ -17,10 +18,9 @@ public class SpringCache implements Cache {
 	private final EasyCache cache;
 	
 	private final Logger logger = Logger.getLogger(this.getClass());
-	
-	// TODO 目前先使用默认名称
-	private final String name = "defaultCache";
-	
+
+	private String name;
+
 	/**
 	 * 读取超时时间
 	 */
@@ -37,6 +37,12 @@ public class SpringCache implements Cache {
 	
 	@Override
 	public String getName() {
+		if(StringUtils.isEmpty(name)){
+			name = cache.getName();
+			if(StringUtils.isEmpty(name)){
+				name = EasyCache.DEFAULT_CACHE_NAME;
+			}
+		}
 		return name;
 	}
 
@@ -82,10 +88,11 @@ public class SpringCache implements Cache {
 		}
 		
 		try {
-			if(null != expiry)
+			if(null != expiry) {
 				cache.set(key.toString(), value, expiry);
-			else
+			} else {
 				cache.set(key.toString(), value);
+			}
 		} catch (Exception e) {
 			logger.error(new StringBuilder("put cache error,").append(e.getMessage()), e);
 		}

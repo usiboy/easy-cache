@@ -4,8 +4,8 @@
  */
 package com.github.usiboy.easycache.simple;
 
+import com.github.usiboy.easycache.AbstractEasyCache;
 import com.github.usiboy.easycache.CacheException;
-import com.github.usiboy.easycache.EasyCache;
 import com.github.usiboy.easycache.simple.ExpiryMap.ExpiryValue;
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -22,7 +22,7 @@ import java.util.Set;
  *
  * @author JackyLIU
  */
-public class SimpleCache implements EasyCache {
+public class SimpleCache extends AbstractEasyCache {
 
     private final static ExpiryMap<String, Object> cache = new ExpiryMap<String, Object>(Collections.synchronizedMap(new HashMap<String, ExpiryValue<Object>>()));
 
@@ -54,11 +54,13 @@ public class SimpleCache implements EasyCache {
     public <T> Map<String, T> gets(String... keys) throws CacheException {
         Map<String, T> map = new HashMap<String, T>(keys.length);
         for (String key : keys) {
-            if (!cache.containsKey(key))
+            if (!cache.containsKey(key)) {
                 continue;
+            }
             Object value = cache.getValue(key);
-            if (null == value)
+            if (null == value) {
                 continue;
+            }
             map.put(key, (T) value);
         }
         return map;
@@ -83,8 +85,9 @@ public class SimpleCache implements EasyCache {
 
     @Override
     public boolean set(String key, Object value, int exp) throws CacheException {
-        if (!(value instanceof Serializable))
+        if (!(value instanceof Serializable)) {
             throw new IllegalArgumentException("value need to implement Serializable interface");
+        }
         cache.put(key, exp, SerializationUtils.clone((Serializable) value));
         return true;
     }

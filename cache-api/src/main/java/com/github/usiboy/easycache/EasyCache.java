@@ -11,6 +11,14 @@ import java.util.Set;
  */
 public interface EasyCache {
 
+    public static final String DEFAULT_CACHE_NAME = "defaultCache";
+
+    /**
+     * 获取缓存组件的名称，特殊情况下可为空，如果全局只有一个cache时，可以为空，默认的名称为defaultCache，如果包含了两个，并记载在spring的缓存管理器中，则需要设置名称
+     * @return
+     */
+    String getName();
+
     /**
      * 批量获取缓存
      *

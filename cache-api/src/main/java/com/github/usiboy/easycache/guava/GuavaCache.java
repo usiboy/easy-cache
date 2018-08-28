@@ -1,7 +1,7 @@
 package com.github.usiboy.easycache.guava;
 
+import com.github.usiboy.easycache.AbstractEasyCache;
 import com.github.usiboy.easycache.CacheException;
-import com.github.usiboy.easycache.EasyCache;
 import com.google.common.base.Function;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by liumingjian on 2017/5/3.
  */
-public class GuavaCache implements EasyCache {
+public class GuavaCache extends AbstractEasyCache {
 
     long maximumSize = 2000;
 
@@ -105,8 +105,9 @@ public class GuavaCache implements EasyCache {
                 set(key, 0L - value);
                 return;
             }
-            if (!(origin instanceof Number))
+            if (!(origin instanceof Number)) {
                 throw new CacheException(key + "'s value type is not Number!");
+            }
 
             Number ovalue = (Number)origin;
             set(key, ovalue.longValue() - value);

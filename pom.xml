@@ -19,6 +19,7 @@
 		<version.commons.lang3>3.4</version.commons.lang3>
 		<version.guava>18.0</version.guava>
 		<version.fastjson>1.1.46</version.fastjson>
+		<version.ehcache>2.6.11</version.ehcache>
 	</properties>
 	
 	<organization>
@@ -91,6 +92,11 @@
 				<artifactId>fastjson</artifactId>
 				<version>${version.fastjson}</version>
 			</dependency>
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-core</artifactId>
+				<version>${version.ehcache}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -152,5 +158,6 @@
 	<modules>
 		<module>cache-api</module>
 		<module>cache-spring</module>
-    </modules>
+		<module>cache-ehcache</module>
+	</modules>
 </project>

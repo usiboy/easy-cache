@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/spring-*.xml")
+@ContextConfiguration(locations = "classpath:spring/spring1.xml")
 public class TestEvictCacheWithSpring {
 
 	@Resource
