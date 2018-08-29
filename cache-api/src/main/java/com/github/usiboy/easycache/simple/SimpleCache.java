@@ -6,6 +6,7 @@ package com.github.usiboy.easycache.simple;
 
 import com.github.usiboy.easycache.AbstractEasyCache;
 import com.github.usiboy.easycache.CacheException;
+import com.github.usiboy.easycache.CacheTouchable;
 import com.github.usiboy.easycache.simple.ExpiryMap.ExpiryValue;
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -22,7 +23,7 @@ import java.util.Set;
  *
  * @author JackyLIU
  */
-public class SimpleCache extends AbstractEasyCache {
+public class SimpleCache extends AbstractEasyCache implements CacheTouchable{
 
     private final static ExpiryMap<String, Object> cache = new ExpiryMap<String, Object>(Collections.synchronizedMap(new HashMap<String, ExpiryValue<Object>>()));
 
@@ -125,25 +126,34 @@ public class SimpleCache extends AbstractEasyCache {
     }
 
     @Override
-    public void incr(String key, Long value) throws CacheException {
-        Long curv = 0L;
-        if (containKey(key)) {
-            curv = get(key);
+    public Long incr(String key, Long value) throws CacheException {
+        getLock().lock();
+        try {
+            Long curv = 0L;
+            if (containKey(key)) {
+                curv = get(key);
+            }
+            final Long result = curv + value;
+            cache.put(key, defaultExpiry, result);
+            return result;
+        }finally {
+            getLock().unlock();
         }
-        cache.put(key, defaultExpiry, curv + value);
     }
 
     @Override
-    public void decr(String key, Long value) throws CacheException {
-        Long curv = 0L;
-        if (containKey(key)) {
-            curv = get(key);
+    public Long decr(String key, Long value) throws CacheException {
+        getLock().lock();
+        try{
+            Long curv = 0L;
+            if (containKey(key)) {
+                curv = get(key);
+            }
+            final Long result = curv - value;
+            cache.put(key, defaultExpiry, result);
+            return result;
+        }finally {
+            getLock().unlock();
         }
-        cache.put(key, defaultExpiry, curv - value);
-    }
-
-    @Override
-    public boolean add(String key, Object value, int expireTime) throws CacheException {
-        return !cache.containsKey(key) && set(key, value, expireTime);
     }
 }

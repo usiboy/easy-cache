@@ -75,46 +75,6 @@ public class GuavaCache extends AbstractEasyCache {
     }
 
     @Override
-    public <T> T getAndTouch(String key, int newExpireTime) throws CacheException {
-        // guava的cache没办法对每一个key设置不同的touch时间
-        return get(key);
-    }
-
-    @Override
-    public void incr(String key, Long value) throws CacheException {
-        synchronized (this) {
-            Object origin = get(key);
-            if (null == origin) {
-                set(key, value);
-                return;
-            }
-            if (!(origin instanceof Number)) {
-                throw new CacheException(key + "'s value type is not Number!");
-            }
-
-            Number ovalue = (Number)origin;
-            set(key, ovalue.longValue() + value);
-        }
-    }
-
-    @Override
-    public void decr(String key, Long value) throws CacheException {
-        synchronized (this) {
-            Object origin = get(key);
-            if (null == origin) {
-                set(key, 0L - value);
-                return;
-            }
-            if (!(origin instanceof Number)) {
-                throw new CacheException(key + "'s value type is not Number!");
-            }
-
-            Number ovalue = (Number)origin;
-            set(key, ovalue.longValue() - value);
-        }
-    }
-
-    @Override
     public boolean set(String key, Object value) throws CacheException {
         try {
             getCache().put(key, value);
@@ -128,12 +88,6 @@ public class GuavaCache extends AbstractEasyCache {
     public boolean set(String key, Object value, int exp) throws CacheException {
         // guava的cache没办法对每一个key设置不同的过期时间，只能设置一个统一的过期时间
         return set(key, value);
-    }
-
-    @Override
-    public boolean touch(String key, int newExpireTime) throws CacheException {
-        // guava的cache没办法对每一个key设置不同的touch时间
-        return false;
     }
 
     @Override
@@ -154,11 +108,6 @@ public class GuavaCache extends AbstractEasyCache {
     @Override
     public Set<String> keys() throws CacheException {
         return getCache().asMap().keySet();
-    }
-
-    @Override
-    public boolean add(String key, Object value, int expireTime) throws CacheException {
-        return !cache.asMap().containsKey(key) && set(key, value, expireTime);
     }
 
     public long getMaximumSize() {

@@ -10,7 +10,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-		<maven.test.skip>true</maven.test.skip>
 
 		<version.spring>3.2.8.RELEASE</version.spring>
 		<version.log4j>1.2.17</version.log4j>

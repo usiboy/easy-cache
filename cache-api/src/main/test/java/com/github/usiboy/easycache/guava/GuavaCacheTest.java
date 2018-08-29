@@ -1,6 +1,5 @@
 package com.github.usiboy.easycache.guava;
 
-import com.github.usiboy.easycache.CacheException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -84,7 +83,7 @@ public class GuavaCacheTest {
         Assert.assertEquals(6L, ((Long)cache.get("test")).longValue());
     }
 
-    @Test(expected = CacheException.class)
+    @Test(expected = ClassCastException.class)
     public void testIncr2() throws Exception {
         cache.set("test", "0");
         cache.incr("test", 1L);
@@ -98,7 +97,7 @@ public class GuavaCacheTest {
         Assert.assertEquals(-8L, ((Long)cache.get("test")).longValue());
     }
 
-    @Test(expected = CacheException.class)
+    @Test(expected = ClassCastException.class)
     public void testDesr2() throws Exception {
         cache.set("test", "0");
         cache.decr("test", 1L);

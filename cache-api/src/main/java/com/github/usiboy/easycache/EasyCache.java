@@ -46,32 +46,22 @@ public interface EasyCache {
     <T> T get(final String key, final long timeout) throws CacheException;
 
     /**
-     * 根据key得到相应的值并且延长该缓存时间
-     *
-     * @param key
-     * @param newExpireTime
-     * @return
-     * @throws CacheException
-     */
-    <T> T getAndTouch(String key, final int newExpireTime) throws CacheException;
-
-    /**
-     * 将缓存的值增加
+     * 将缓存的值增加，并返回增加后的值
      *
      * @param key
      * @param value
      * @throws CacheException
      */
-    void incr(String key, Long value) throws CacheException;
+    Long incr(String key, Long value) throws CacheException;
 
     /**
-     * 将缓存的值减少
+     * 将缓存的值减少，并返回增加后的值
      *
      * @param key
      * @param value
      * @throws CacheException
      */
-    void decr(String key, Long value) throws CacheException;
+    Long decr(String key, Long value) throws CacheException;
 
     /**
      * 设置缓存的值,默认过期时间为一个月
@@ -91,15 +81,6 @@ public interface EasyCache {
      * @return
      */
     boolean set(final String key, final Object value, final int exp) throws CacheException;
-
-    /**
-     * 更新缓存数据的超时时间
-     *
-     * @param key
-     * @param newExpireTime 新的过期时间
-     * @return
-     */
-    boolean touch(String key, int newExpireTime) throws CacheException;
 
     /**
      * 删除某个key的缓存
